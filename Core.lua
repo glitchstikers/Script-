@@ -1,7 +1,7 @@
 local Core = {}
 
 Core.Games = {
-    [123456789] = "https://yourdomain.com/testgame.lua"
+    [4483381587] = "https://yourdomain.com/testgame.lua"
 }
 
 function Core:LoadGameScript()
