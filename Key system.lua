@@ -127,7 +127,7 @@ local function enterKey()
     if userInputKey == correctKey then
         saveKey(userInputKey)
 
-        local scriptURL = "https://yourdomain.com/script.lua"
+        local scriptURL = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/Core.lua"
         local success, result = pcall(function()
             return loadstring(game:HttpGet(scriptURL))()
         end)
