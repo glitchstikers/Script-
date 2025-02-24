@@ -1,51 +1,27 @@
-local ShadowByte = {}
+local Core = {}
 
-ShadowByte.Config = {
-    Debug = true,
-    AutoExecute = true,
-    UIEnabled = true
+Core.Games = {
+    [123456789] = "https://yourdomain.com/testgame.lua",  -- Example Game 1
+    [987654321] = "https://yourdomain.com/script2.lua",   -- Example Game 2
+    [112233445] = "https://yourdomain.com/script3.lua"    -- Example Game 3
 }
 
--- List of supported game IDs for auto-loading
-ShadowByte.SupportedGames = {
-    [4483381587] = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/GameList/TestGame.lua"
-}
+function Core:LoadGameScript()
+    local gameID = game.PlaceId
+    local scriptURL = self.Games[gameID]
 
-function ShadowByte:Log(message)
-    if self.Config.Debug then
-        print("[ShadowByte] " .. message)
-    end
-end
-
-function ShadowByte:LoadCore()
-    local placeId = game.PlaceId
-
-    if self.SupportedGames[placeId] then
-        self:Log("Loading ShadowByte Core for game ID: " .. placeId)
-        local coreURL = "https://yourdomain.com/core.lua"
-        local success, CoreScript = pcall(function()
-            return loadstring(game:HttpGet(coreURL))()
-        end)
-
-        if success and CoreScript then
-            CoreScript:Init()
-            self:Log("ShadowByte Core Successfully Loaded!")
+    if scriptURL then
+        print("[ShadowByte] Loading script for Game ID: " .. gameID)
+        local success, scriptFunc = pcall(loadstring(game:HttpGet(scriptURL)))
+        if success and scriptFunc then
+            scriptFunc()
+            print("[ShadowByte] Successfully Loaded Script for Game ID: " .. gameID)
         else
-            warn("[ShadowByte] Core Load Failed")
+            warn("[ShadowByte] Failed to Load Script for Game ID: " .. gameID)
         end
     else
-        self:Log("Game ID not supported: " .. placeId)
+        warn("[ShadowByte] No script found for Game ID: " .. gameID)
     end
 end
 
-function ShadowByte:Init()
-    self:Log("Initializing ShadowByte Core...")
-    
-    if self.Config.AutoExecute then
-        self:LoadCore()
-    end
-
-    self:Log("ShadowByte Core Initialization Complete!")
-end
-
-return ShadowByte
+return Core
