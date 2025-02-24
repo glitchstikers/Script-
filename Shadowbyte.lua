@@ -1,4 +1,4 @@
-local CoreURL = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/Core.lua"
+local CoreURL = "https://yourdomain.com/core.lua"
 
 local success, CoreScript = pcall(function()
     return loadstring(game:HttpGet(CoreURL))()
