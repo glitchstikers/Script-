@@ -1,8 +1,7 @@
 local Core = {}
 
 Core.GameList = {
-    [1234567890] = "https://yourdomain.com/game1.lua", -- Replace with actual game IDs and script URLs
-    [9876543210] = "https://yourdomain.com/game2.lua"
+    [4483381587] = "https://yourdomain.com/game1.lua" -- Replace with actual game IDs and script URLs
 }
 
 function Core:LoadGameScript()
