@@ -6,10 +6,9 @@ ShadowByte.Config = {
     UIEnabled = true
 }
 
-ShadowByte.Scripts = {
-    {Name = "Script 1", URL = "https://yourdomain.com/script1.lua"},
-    {Name = "Script 2", URL = "https://yourdomain.com/script2.lua"},
-    {Name = "Script 3", URL = "https://yourdomain.com/script3.lua"}
+-- List of supported game IDs for auto-loading
+ShadowByte.SupportedGames = {
+    [4483381587] = "TestGame"
 }
 
 function ShadowByte:Log(message)
@@ -18,71 +17,35 @@ function ShadowByte:Log(message)
     end
 end
 
-function ShadowByte:LoadScript(scriptData)
-    local success, scriptFunc = pcall(loadstring(game:HttpGet(scriptData.URL)))
-    if success and scriptFunc then
-        scriptFunc()
-        self:Log("Successfully Loaded: " .. scriptData.Name)
-        self:Notify("Success", scriptData.Name .. " Loaded Successfully!")
+function ShadowByte:LoadCore()
+    local placeId = game.PlaceId
+
+    if self.SupportedGames[placeId] then
+        self:Log("Loading ShadowByte Core for game ID: " .. placeId)
+        local coreURL = "https://yourdomain.com/core.lua"
+        local success, CoreScript = pcall(function()
+            return loadstring(game:HttpGet(coreURL))()
+        end)
+
+        if success and CoreScript then
+            CoreScript:Init()
+            self:Log("ShadowByte Core Successfully Loaded!")
+        else
+            warn("[ShadowByte] Core Load Failed")
+        end
     else
-        warn("[ShadowByte] Failed to Load: " .. scriptData.Name)
-        self:Notify("Error", scriptData.Name .. " Failed to Load!")
+        self:Log("Game ID not supported: " .. placeId)
     end
-end
-
-function ShadowByte:LoadAll()
-    for _, scriptData in ipairs(self.Scripts) do
-        self:LoadScript(scriptData)
-    end
-    self:Notify("Success", "All Scripts Loaded Successfully!")
-end
-
-function ShadowByte:CreateUI()
-    local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
-    local Window = Rayfield:CreateWindow({
-        Name = "ShadowByte Executor",
-        LoadingTitle = "ShadowByte Framework",
-        LoadingSubtitle = "by Dev",
-        Theme = "Default",
-        DisableRayfieldPrompts = false
-    })
-
-    local MainTab = Window:CreateTab("Scripts", 4483362458)
-    local Section = MainTab:CreateSection("Available Scripts")
-
-    for _, scriptData in ipairs(self.Scripts) do
-        MainTab:CreateButton({
-            Name = scriptData.Name,
-            Callback = function()
-                self:LoadScript(scriptData)
-            end
-        })
-    end
-end
-
-function ShadowByte:Notify(title, content)
-    local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
-    Rayfield:Notify({
-        Title = title,
-        Content = content,
-        Duration = 5,
-        Image = 4483362458
-    })
 end
 
 function ShadowByte:Init()
-    self:Log("Initializing ShadowByte...")
-    self:Notify("ShadowByte", "Initializing ShadowByte...")
-
+    self:Log("Initializing ShadowByte Core...")
+    
     if self.Config.AutoExecute then
-        self:LoadAll()
-    end
-    if self.Config.UIEnabled then
-        self:CreateUI()
+        self:LoadCore()
     end
 
-    self:Log("ShadowByte Initialization Complete!")
-    self:Notify("Success", "ShadowByte Successfully Loaded!")
+    self:Log("ShadowByte Core Initialization Complete!")
 end
 
 return ShadowByte
