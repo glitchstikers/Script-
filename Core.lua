@@ -1,7 +1,7 @@
 local Core = {}
 
 Core.GameList = {
-    [4483381587] = "https://yourdomain.com/game1.lua" -- Replace with actual game IDs and script URLs
+    [4483381587] = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/GameList/TestGame.lua" -- Replace with actual game IDs and script URLs
 }
 
 function Core:LoadGameScript()
