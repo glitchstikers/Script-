@@ -78,7 +78,7 @@ local function enterKey()
         sendNotification("Success", "Key Accepted! Loading Script...", 5)
         wait(1)
         screenGui:Destroy()
-        local scriptURL = "https://yourdomain.com/script.lua"
+        local scriptURL = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/Core.lua"
         local success, result = pcall(function()
             return loadstring(game:HttpGet(scriptURL))()
         end)
