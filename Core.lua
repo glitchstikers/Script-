@@ -1,24 +1,24 @@
 local Core = {}
 
-Core.Games = {
-    [4483381587] = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/GameList/TestGame.lua"
+Core.GameList = {
+    [1234567890] = "https://yourdomain.com/game1.lua", -- Replace with actual game IDs and script URLs
+    [9876543210] = "https://yourdomain.com/game2.lua"
 }
 
 function Core:LoadGameScript()
-    local gameID = game.PlaceId
-    local scriptURL = self.Games[gameID]
+    local placeId = game.PlaceId
+    local scriptURL = self.GameList[placeId]
 
     if scriptURL then
-        print("[ShadowByte] Loading script for Game ID: " .. gameID)
         local success, scriptFunc = pcall(loadstring(game:HttpGet(scriptURL)))
         if success and scriptFunc then
             scriptFunc()
-            print("[ShadowByte] Successfully Loaded Script for Game ID: " .. gameID)
+            print("[Core] Successfully Loaded Script for Game ID: " .. placeId)
         else
-            warn("[ShadowByte] Failed to Load Script for Game ID: " .. gameID)
+            warn("[Core] Failed to Load Script for Game ID: " .. placeId)
         end
     else
-        warn("[ShadowByte] No script found for Game ID: " .. gameID)
+        warn("[Core] No Supported Script for this Game.")
     end
 end
 
