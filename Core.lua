@@ -8,7 +8,7 @@ ShadowByte.Config = {
 
 -- List of supported game IDs for auto-loading
 ShadowByte.SupportedGames = {
-    [4483381587] = "TestGame"
+    [4483381587] = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/GameList/TestGame.lua"
 }
 
 function ShadowByte:Log(message)
