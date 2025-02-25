@@ -1,12 +1,7 @@
-local CoreURL = "https://raw.githubusercontent.com/glitchstikers/Script-/refs/heads/main/Core.lua"
+local Games = loadstring(game:HttpGet("https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/GameList.lua"))()
 
-local success, CoreScript = pcall(function()
-    return loadstring(game:HttpGet(CoreURL))()
-end)
-
-if success and CoreScript then
-    CoreScript:LoadGameScript()
-    print("[ShadowByte] Successfully Loaded Core!")
-else
-    warn("[ShadowByte] Core Load Failed")
+for PlaceID, Execute in pairs(Games) do
+    if PlaceID == game.PlaceId then
+        loadstring(game:HttpGet(Execute))()
+    end
 end
